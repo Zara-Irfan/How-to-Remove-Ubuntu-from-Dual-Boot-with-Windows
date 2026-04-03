@@ -1,38 +1,69 @@
-# How-to-Remove-Ubuntu-from-Dual-Boot-with-Windows
-Remove Ubuntu (Linux) from Dual Boot with Windows
-
-A simple guide to safely remove Ubuntu from a Windows dual boot system and restore Windows as the only operating system.
-
-## Before You Start
-Backup any important files from Ubuntu
-Make sure you can boot into Windows
-Have a Windows recovery USB (recommended)
-## Steps
-1. Delete Ubuntu Partitions
-Press Windows + X → Click Disk Management
-Find Ubuntu partitions:
-No drive letter
-Unknown / EXT4 format
-Right-click each Ubuntu partition → Delete Volume
-(Optional) Extend your Windows partition to use the free space
-2. Fix the Windows Bootloader
-
-After deleting Ubuntu, your system may still try to load GRUB (Linux bootloader).
-
-Method A (Recommended)
-Boot into Windows Recovery
-Open Command Prompt
+How to Remove Ubuntu from a Windows Dual Boot
+⚠️ WARNING: This will permanently delete Ubuntu and all its data. Back up your files before continuing.
+________________________________________
+🧭 PART 1 — THE STEPS
+________________________________________
+Step 1 — Back Up Your Data
+•	Boot into Ubuntu one last time 
+•	Copy all important files to a USB or external drive 
+•	Restart and boot into Windows 
+________________________________________
+Step 2 — Set Windows as Default Boot Option
+•	Restart your PC 
+•	Enter BIOS/UEFI (usually F2, DEL, ESC, or F12) 
+•	Go to the Boot section 
+•	Move Windows Boot Manager to the top 
+•	Save and exit (usually F10) 
+✅ This prevents boot errors before removing Ubuntu 
+________________________________________
+Step 3 — Delete Ubuntu Partitions
+•	Press Win + R, type diskmgmt.msc, press Enter 
+•	In Disk Management:  
+o	Find partitions with: 
+	No drive letter 
+	Not NTFS 
+•	Right-click each Ubuntu partition → Delete Volume  Repeat for all Ubuntu partitions 
+✅ The space will become Unallocated 
+Optional:
+•	Right-click your C: drive → Extend Volume to use the space 
+⚠️ DO NOT DELETE:
+•	EFI System Partition 
+•	Recovery Partition 
+•	Any Windows (NTFS) partition 
+________________________________________
+Step 4 — Remove Ubuntu Boot Entry (EFI)
+•	Open Command Prompt as Administrator 
 Run:
-bootrec /fixmbr
-bootrec /fixboot
-bootrec /rebuildbcd
-Method B (Alternative)
-Enter BIOS/UEFI
-Set Windows Boot Manager as first boot option
-3. Restart Your PC
-Restart your computer
-It should boot directly into Windows
-No more dual boot menu 🎉
-## Done!
+diskpart
+list disk
+select disk 0
+list partition  
+•	Find the System partition (100–500MB) 
+select partition 1
+assign letter=Z  
+exit
+________________________________________
+Step 5 — Delete Ubuntu Boot Files
+•	Open task manager and click run new task  
+•	Go to: This PC → Z: → EFI 
+•	Find the folder named: ubuntu
+👉 Delete ONLY the ubuntu folder
+⚠️ Do NOT delete anything else (like Microsoft)
+________________________________________
+Step 6 — Clean Up (Remove Drive Letter)
+Open Command Prompt again:
+diskpart
+select disk 0
+select partition 1
+remove letter=Z
+exit  
+________________________________________
+Step 7 — Restart and Verify
+•	Restart your PC 
+•	It should boot directly into Windows 
+•	No Ubuntu or GRUB menu should appear 
+________________________________________
+ Done!
+🎉 Ubuntu has been completely removed
+💻 Windows is now the only operating system
 
-Ubuntu is now fully removed and Windows is restored as your main OS.
