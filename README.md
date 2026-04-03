@@ -16,7 +16,7 @@ ________________________________________
 •	Save and exit (usually F10) 
 **This prevents boot errors before removing Ubuntu**
 ________________________________________
-# Step 3 — Delete Ubuntu Partitions
+## Step 3 — Delete Ubuntu Partitions
 •	Press Win + R, type diskmgmt.msc, press Enter 
 •	In Disk Management:  
 o	Find partitions with: 
@@ -31,7 +31,7 @@ Optional:
 •	Recovery Partition 
 •	Any Windows (NTFS) partition 
 ________________________________________
-# Step 4 — Remove Ubuntu Boot Entry (EFI)
+## Step 4 — Remove Ubuntu Boot Entry (EFI)
 •	Open Command Prompt as Administrator 
 Run:
 diskpart
@@ -43,14 +43,14 @@ select partition 1
 assign letter=Z  
 exit
 ________________________________________
-# Step 5 — Delete Ubuntu Boot Files
+## Step 5 — Delete Ubuntu Boot Files
 •	Open task manager and click run new task  
 •	Go to: This PC → Z: → EFI 
 •	Find the folder named: ubuntu
  **Delete ONLY the ubuntu folder**
  **Do NOT delete anything else (like Microsoft)**
 ________________________________________
-# Step 6 — Clean Up (Remove Drive Letter)
+## Step 6 — Clean Up (Remove Drive Letter)
 Open Command Prompt again:
 diskpart
 select disk 0
@@ -58,7 +58,7 @@ select partition 1
 remove letter=Z
 exit  
 ________________________________________
-# Step 7 — Restart and Verify
+## Step 7 — Restart and Verify
 •	Restart your PC 
 •	It should boot directly into Windows 
 •	No Ubuntu or GRUB menu should appear 
